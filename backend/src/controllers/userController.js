@@ -2,7 +2,6 @@ import * as userService from "../services/userService.js";
 import { validateUser } from "../validators/userValidator.js";
 
 export const createUser = async (req) => {
-  console.log(req.body);
   const validUser = validateUser(req.body, "post");
 
   const user = await userService.createUser(validUser);
