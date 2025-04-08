@@ -15,6 +15,10 @@
   "dependencies": {
     "@prisma/client": "^6.5.0",
     "bcrypt": "^5.1.1",
+<<<<<<< HEAD
+=======
+    "cookie-parser": "^1.4.7",
+>>>>>>> 099f4a1 (feat(register route): controller, service, repository, tests, validators)
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "joi": "^17.13.3"
