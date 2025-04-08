@@ -1,4 +1,5 @@
 import js from "@eslint/js";
+import vitest from "eslint-plugin-vitest";
 import { defineConfig } from "eslint/config";
 import globals from "globals";
 
@@ -29,7 +30,7 @@ export default defineConfig([
       },
     },
     plugins: {
-      vitest: require("eslint-plugin-vitest"),
+      vitest,
     },
     extends: ["plugin:vitest/recommended"],
   },
