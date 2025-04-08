@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id               Int          @id @default(autoincrement())
+  firstName         String       @map("first_name")
+  email            String       @unique
+  password         String
+  weight           Float        // En kg
+  bodyFat          Float        // En pourcentage
+  activityLevel    Int          // 1: sédentaire, 2: léger, 3: modéré, 4: actif, 5: très actif
+  createdAt        DateTime     @default(now()) @map("created_at")
+
+  weekPlans        WeekPlan[]
+  groceryLists     GroceryList[]
+  rejectedFoods    UserRejectedFood[]
+
+  @@map("users")
+}
+
+enum FoodCategory {
+  legume
+  fruit
+  produit_laitier
+  viande
+  poisson
+  fruit_de_mer
+  matiere_grasse
+  feculent
+  cereale
+  boisson
+  condiment
+  autre
+}
+
+model Food {
+  id               Int             @id @default(autoincrement())
+  name             String          @unique
+  category         FoodCategory
+  calories         Float
+  proteins         Float
+  carbohydrates    Float
+  lipids           Float
+
+  mealFoods       MealFood[]
+  groceryListFoods GroceryListFood[]
+  rejectedByUsers  UserRejectedFood[]
+
+  @@map("foods")
+}
+
+model UserRejectedFood {
+  user      User    @relation(fields: [userId], references: [id])
+  userId    Int     @map("user_id")
+  food      Food    @relation(fields: [foodId], references: [id])
+  foodId    Int     @map("food_id")
+
+  @@id([userId, foodId])
+  @@map("user_rejected_foods")
+}
+
+model Meal {
+  id                 Int      @id @default(autoincrement())
+  name               String   @unique
+  totalCalories      Float    @map("total_calories")
+  totalProteins      Float    @map("total_proteins")
+  totalCarbohydrates Float    @map("total_carbohydrates")
+  totalLipids        Float    @map("total_lipids")
+
+  mealFoods     MealFood[]
+  weekPlanMeals WeekPlanMeal[]
+
+  @@map("meals")
+}
+
+model MealFood {
+  meal     Meal  @relation(fields: [mealId], references: [id])
+  mealId   Int   @map("meal_id")
+  food     Food  @relation(fields: [foodId], references: [id])
+  foodId   Int   @map("food_id")
+  quantity Float
+
+  @@id([mealId, foodId])
+  @@map("meal_foods")
+}
+
+enum WeekPlanMealsMoment {
+  petit_dejeuner
+  dejeuner
+  collation
+  diner
+}
+
+model WeekPlanMeal {
+  id         Int                  @id @default(autoincrement())
+  weekPlanId Int                  @map("week_plan_id")
+  mealId     Int                  @map("meal_id")
+  day        Int                  // 1 à 7
+  moment     WeekPlanMealsMoment
+  weekPlan   WeekPlan             @relation(fields: [weekPlanId], references: [id])
+  meal       Meal                 @relation(fields: [mealId], references: [id])
+
+  @@unique([weekPlanId, day, moment])
+  @@map("week_plan_meals")
+}
+
+model WeekPlan {
+  id        Int         @id @default(autoincrement())
+  userId    Int         @map("user_id")
+  name      String      @default("Plan de la semaine")
+  createdAt DateTime    @default(now()) @map("created_at")
+  user      User        @relation(fields: [userId], references: [id])
+  weekPlanMeals WeekPlanMeal[]
+  groceryLists  GroceryList[]
+
+  @@map("week_plans")
+}
+
+model GroceryList {
+  id         Int         @id @default(autoincrement())
+  userId     Int         @map("user_id")
+  weekPlanId Int         @map("week_plan_id")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  user       User        @relation(fields: [userId], references: [id])
+  weekPlan   WeekPlan    @relation(fields: [weekPlanId], references: [id])
+  groceryListFoods GroceryListFood[]
+
+  @@map("grocery_list")
+}
+
+model GroceryListFood {
+  groceryList   GroceryList @relation(fields: [groceryListId], references: [id])
+  groceryListId Int         @map("grocery_list_id")
+  food          Food        @relation(fields: [foodId], references: [id])
+  foodId        Int         @map("food_id")
+  quantity      Float
+
+  @@id([groceryListId, foodId])
+  @@map("grocery_list_foods")
+}
