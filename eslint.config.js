@@ -1,15 +1,25 @@
 import js from "@eslint/js";
+import vitest from "eslint-plugin-vitest";
 import { defineConfig } from "eslint/config";
 import globals from "globals";
 
 export default defineConfig([
-  { files: ["**/*.{js,mjs,cjs}"] },
   {
     files: ["**/*.{js,mjs,cjs}"],
     languageOptions: {
       globals: {
         ...globals.browser,
         ...globals.node,
+      },
+    },
+    plugins: { js },
+    extends: ["js/recommended"],
+  },
+  {
+    files: ["**/tests/**/*.js", "**/*.test.js"],
+    languageOptions: {
+      globals: {
+        vi: "readonly",
         describe: "readonly",
         it: "readonly",
         expect: "readonly",
@@ -19,6 +29,13 @@ export default defineConfig([
         afterEach: "readonly",
       },
     },
+    plugins: {
+      vitest,
+    },
+    rules: {
+      "vitest/no-focused-tests": "error",
+      "vitest/no-disabled-tests": "warn",
+      "vitest/expect-expect": "warn",
+    },
   },
-  { files: ["**/*.{js,mjs,cjs}"], plugins: { js }, extends: ["js/recommended"] },
 ]);

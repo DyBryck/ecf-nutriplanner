@@ -12,6 +12,13 @@ export class BadRequestError extends Error {
   }
 }
 
+export class ValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "ValidationError";
+  }
+}
+
 export class UnauthorizedError extends Error {
   constructor(message) {
     super(message);

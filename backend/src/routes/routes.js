@@ -4,6 +4,6 @@ import { handleRequest } from "../utils/handleRequestUtils.js";
 
 const router = express.Router();
 
-router.get("/users", handleRequest(userController.getAllUsers));
+router.post("/register", handleRequest(userController.createUser));
 
 export default router;
