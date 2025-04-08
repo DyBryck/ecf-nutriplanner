@@ -32,6 +32,10 @@ export default defineConfig([
     plugins: {
       vitest,
     },
-    extends: ["plugin:vitest/recommended"],
+    rules: {
+      "vitest/no-focused-tests": "error",
+      "vitest/no-disabled-tests": "warn",
+      "vitest/expect-expect": "warn",
+    },
   },
 ]);
