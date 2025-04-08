@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap");
+
 /* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
@@ -36,30 +38,6 @@ select {
   font: inherit;
 }
 
-/* 7. Avoid text overflows */
-p,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  overflow-wrap: break-word;
-}
-
-/* 8. Improve line wrapping */
-p {
-  text-wrap: pretty;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  text-wrap: balance;
-}
-
 /*
   9. Create a root stacking context
 */
@@ -68,15 +46,67 @@ h6 {
   isolation: isolate;
 }
 
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+  flex-direction: column;
+}
+
 head {
   display: none;
 }
 
-a {
-  text-decoration: underline;
+body {
+  font-family: "Afacad", sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 25px 38px;
+  background-color: #f3f2f2;
 }
 
-.dark-mode {
-  background-color: #121212;
-  color: #ffffff;
+header-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 32px;
+}
+
+header-content ul {
+  display: flex;
+  gap: 13px;
+  list-style-type: none;
+}
+
+header-content ul a:hover {
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #f35b04;
+}
+
+.logo {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.button {
+  background-color: #f35b04;
+  width: 250px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer {
+  background-color: #f9dcc4;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 }
