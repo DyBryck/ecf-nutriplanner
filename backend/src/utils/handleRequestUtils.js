@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-import { BadRequestError, NotFoundError, UnauthorizedError } from "../errors/customErrors.js";
-=======
 import {
   BadRequestError,
   NotFoundError,
   UnauthorizedError,
   ValidationError,
 } from "../errors/customErrors.js";
->>>>>>> 099f4a1 (feat(register route): controller, service, repository, tests, validators)
 
 // Codes de succès par défaut pour chaque méthode HTTP
 const defaultSuccessCodes = {
@@ -38,11 +34,7 @@ export const handleRequest = (callback) => async (req, res) => {
 
     // Définit le code d'erreur en fonction du type d'erreur
     let statusCode;
-<<<<<<< HEAD
-    if (error instanceof BadRequestError) {
-=======
     if (error instanceof BadRequestError || error instanceof ValidationError) {
->>>>>>> 099f4a1 (feat(register route): controller, service, repository, tests, validators)
       statusCode = 400;
     } else if (error instanceof UnauthorizedError) {
       statusCode = 401;

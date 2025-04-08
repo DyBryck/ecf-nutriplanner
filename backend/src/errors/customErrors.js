@@ -12,8 +12,6 @@ export class BadRequestError extends Error {
   }
 }
 
-<<<<<<< HEAD
-=======
 export class ValidationError extends Error {
   constructor(message) {
     super(message);
@@ -21,7 +19,6 @@ export class ValidationError extends Error {
   }
 }
 
->>>>>>> 099f4a1 (feat(register route): controller, service, repository, tests, validators)
 export class UnauthorizedError extends Error {
   constructor(message) {
     super(message);
