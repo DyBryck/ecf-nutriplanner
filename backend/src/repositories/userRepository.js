@@ -9,3 +9,12 @@ export const createUser = (data) =>
       data,
     }),
   );
+
+export const findUserByEmail = (email) =>
+  prismaErrorHandler(() =>
+    prisma.users.findUnique({
+      where: {
+        email,
+      },
+    }),
+  );
