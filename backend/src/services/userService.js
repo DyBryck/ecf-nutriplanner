@@ -1,7 +1,6 @@
-import { NotFoundError, UnauthorizedError } from "../errors/customErrors.js";
+import { NotFoundError } from "../errors/customErrors.js";
 import * as userRepository from "../repositories/userRepository.js";
-import { signAccessToken, signRefreshToken } from "../utils/jwtUtils.js";
-import { comparePassword, hashPassword } from "../utils/passwordUtils.js";
+import { hashPassword } from "../utils/passwordUtils.js";
 
 export const createUser = async (data) => {
   const userData = {
@@ -17,20 +16,25 @@ export const createUser = async (data) => {
   return newUser;
 };
 
-export const loginUser = async (data) => {
-  const user = await userRepository.findUserByEmail(data.email);
+export const getUserById = async (id) => {
+  const user = await userRepository.findUserById(id);
   if (!user) {
     throw new NotFoundError("Utilisateur non trouvé");
   }
 
-  const isPasswordValid = await comparePassword(data.password, user.password);
-  if (!isPasswordValid) {
-    throw new UnauthorizedError("Mot de passe incorrect");
+  return user;
+};
+
+export const updateUser = async (id, data) => {
+  const user = await userRepository.findUserById(id);
+  if (!user) {
+    throw new NotFoundError("Utilisateur non trouvé");
   }
 
-  // générer un token JWT ici si nécessaire
-  const accessToken = signAccessToken(user);
-  const refreshToken = signRefreshToken(user);
+  const updatedUser = await userRepository.updateUser(id, data);
+  if (!updatedUser) {
+    throw new Error("Erreur lors de la mise à jour de l'utilisateur");
+  }
 
-  return { user, accessToken, refreshToken };
+  return updatedUser;
 };

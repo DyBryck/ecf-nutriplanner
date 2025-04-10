@@ -18,3 +18,22 @@ export const findUserByEmail = (email) =>
       },
     }),
   );
+
+export const findUserById = (id) =>
+  prismaErrorHandler(() =>
+    prisma.users.findUniqueOrThrow({
+      where: {
+        id,
+      },
+    }),
+  );
+
+export const updateUser = (id, data) =>
+  prismaErrorHandler(() =>
+    prisma.users.update({
+      where: {
+        id,
+      },
+      data,
+    }),
+  );

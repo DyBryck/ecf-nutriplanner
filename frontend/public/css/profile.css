@@ -1,0 +1,71 @@
+html,
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+main p,
+main h1 {
+  font-size: 32px;
+}
+
+main h1 {
+  color: #f35b04;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  gap: 15px;
+  font-size: 24px;
+}
+
+main a {
+  font-size: 25px;
+  color: #f35b04;
+  opacity: 0.56;
+  transition: all 0.3s ease-in-out;
+}
+
+main a:hover {
+  opacity: 1;
+}
+
+#activityLevelDisplay {
+  font-size: 24px;
+}
+
+.button {
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+#updateBtn,
+#updateProfile {
+  background-color: white;
+  border: solid 3px #f35b04;
+  color: black;
+}
+
+#updateProfile:not(:disabled) {
+  background-color: #f35b04;
+  color: white;
+}
+
+input:disabled {
+  cursor: not-allowed;
+}

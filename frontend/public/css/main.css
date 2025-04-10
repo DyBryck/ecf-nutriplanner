@@ -91,6 +91,7 @@ header-content ul a:hover {
 }
 
 .button {
+  cursor: pointer;
   background-color: #f35b04;
   width: 250px;
   height: 50px;

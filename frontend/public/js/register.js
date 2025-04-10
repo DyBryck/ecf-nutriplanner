@@ -30,9 +30,11 @@ form.addEventListener("submit", async (event) => {
   });
   const result = await response.json();
   if (result.error) {
-    return alert(result.error);
+    alert(result.error);
+    return;
   } else {
-    alert(result.message + ", vous allez être redirigé vers la page de connexion");
+    alert("Inscription réussie, vous allez être redirigé vers la page de connexion");
     window.location.href = "/login";
+    return;
   }
 });
