@@ -5,76 +5,31 @@ const prisma = new PrismaClient();
 const seedDb = async () => {
   const aliments = [
     {
-      name: "Pomme",
-      category: "fruit",
-      calories: 52,
-      proteins: 0.3,
-      carbohydrates: 14,
-      lipids: 0.2,
-    },
-    {
-      name: "Riz",
+      name: "Riz Basmati",
       category: "cereale",
       calories: 130,
-      proteins: 2.7,
-      carbohydrates: 28,
-      lipids: 0.3,
-    },
-    {
-      name: "Brocolis",
-      category: "legume",
-      calories: 34,
-      proteins: 2.8,
-      carbohydrates: 6.6,
-      lipids: 0.4,
+      proteins: 0.086,
+      carbohydrates: 0.77,
+      lipids: 0.009,
+      minimum_quantity: 60,
     },
     {
       name: "Poulet",
       category: "viande_blanche",
       calories: 165,
-      proteins: 31,
+      proteins: 0.22,
       carbohydrates: 0,
-      lipids: 3.6,
+      lipids: 0.021,
+      minimum_quantity: 150,
     },
     {
-      name: "Tomates",
-      category: "fruit",
-      calories: 18,
-      proteins: 0.9,
-      carbohydrates: 3.9,
-      lipids: 0.2,
-    },
-    {
-      name: "Boeuf",
+      name: "Bœuf",
       category: "viande_rouge",
       calories: 250,
-      proteins: 26,
-      carbohydrates: 0,
-      lipids: 15,
-    },
-    {
-      name: "Flocons d'avoine",
-      category: "cereale",
-      calories: 389,
-      proteins: 16.9,
-      carbohydrates: 66,
-      lipids: 6.9,
-    },
-    {
-      name: "Kiwi",
-      category: "fruit",
-      calories: 61,
-      proteins: 1.1,
-      carbohydrates: 14.7,
-      lipids: 0.5,
-    },
-    {
-      name: "Banane",
-      category: "fruit",
-      calories: 89,
-      proteins: 1.1,
-      carbohydrates: 22.8,
-      lipids: 0.3,
+      proteins: 0.216,
+      carbohydrates: 0.002,
+      lipids: 0.05,
+      minimum_quantity: 150,
     },
   ];
 
@@ -82,16 +37,27 @@ const seedDb = async () => {
     {
       name: "Riz poulet",
     },
+    {
+      name: "Riz bœuf",
+    },
   ];
 
   const recipes_foods = [
     {
       recipe_id: 1,
-      food_id: 2,
+      food_id: 1,
     },
     {
       recipe_id: 1,
-      food_id: 4,
+      food_id: 2,
+    },
+    {
+      recipe_id: 2,
+      food_id: 1,
+    },
+    {
+      recipe_id: 2,
+      food_id: 3,
     },
   ];
 

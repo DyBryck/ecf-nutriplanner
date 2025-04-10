@@ -146,7 +146,7 @@ model week_plan {
   user            user               @relation(fields: [user_id], references: [id], onDelete: Cascade)
   week_plan_meal  week_plan_meal[]
   grocery_list   grocery_list[]
-  
+
   @@map("week_plan")
 }
 

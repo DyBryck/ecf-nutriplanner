@@ -1,4 +1,4 @@
-export const calculateCaloriesNeeded = ({ weight, body_fat, activity_level }) => {
+export const calculateCaloriesNeeded = (weight, body_fat, activity_level) => {
   const activityMultiplier = {
     1: 1.15,
     2: 1.25,
@@ -48,10 +48,9 @@ const { default: solver } = await import("javascript-lp-solver");
  *
  * @param {Array} recipe - Liste des ingrédients (name, p, c, l, min)
  * @param {Object} target - Objectifs nutritionnels { protein, carb, lipid }
- * @param {number} [minTotal] - Poids total minimal (facultatif)
  * @returns {Object} Résultat structuré
  */
-const optimizeRecipe = (recipe, target, minTotal = 0) => {
+export const optimizeRecipe = (recipe, target) => {
   const model = {
     optimize: "obj",
     opType: "min",
@@ -62,10 +61,6 @@ const optimizeRecipe = (recipe, target, minTotal = 0) => {
     },
     variables: {},
   };
-
-  if (minTotal > 0) {
-    model.constraints.totalWeight = { min: minTotal };
-  }
 
   recipe.forEach((item) => {
     const varDef = {
@@ -79,10 +74,6 @@ const optimizeRecipe = (recipe, target, minTotal = 0) => {
       const constraintName = `min_${item.name}`;
       varDef[constraintName] = 1;
       model.constraints[constraintName] = { min: item.min };
-    }
-
-    if (minTotal > 0) {
-      varDef.totalWeight = 1;
     }
 
     model.variables[item.name] = varDef;
@@ -114,6 +105,7 @@ const optimizeRecipe = (recipe, target, minTotal = 0) => {
       acc.push({
         name: item.name,
         grams: Math.round(quantity * 100) / 100,
+        id: item.id,
       });
     }
     return acc;
@@ -150,14 +142,13 @@ const optimizeRecipe = (recipe, target, minTotal = 0) => {
   };
 };
 
-const recipe = [
-  { name: "Riz", p: 0.027, c: 0.77, l: 0.003, min: 50 },
-  { name: "Poulet", p: 0.202, c: 0.003, l: 0.101, min: 120 },
-  { name: "PetitsPois", p: 0.0327, c: 0.0705, l: 0.0023, min: 60 },
-  // Ajoutez d'autres ingrédients si nécessaire
-];
+// const recipe = [
+//   { name: "Riz", p: 0.027, c: 0.77, l: 0.003, min: 50 },
+//   { name: "Poulet", p: 0.202, c: 0.003, l: 0.101, min: 120 },
+//   { name: "PetitsPois", p: 0.0327, c: 0.0705, l: 0.0023, min: 60 },
+//   // Ajoutez d'autres ingrédients si nécessaire
+// ];
 
-const target = { protein: 30, carb: 60, lipid: 16 };
+// const target = { protein: 30, carb: 60, lipid: 16 };
 
-const result = optimizeRecipe(recipe, target);
-console.log("Résultats de l'optimisation :", result);
+// const result = optimizeRecipe(recipe, target);

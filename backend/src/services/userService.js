@@ -4,7 +4,7 @@ import { calculateCaloriesNeeded } from "../utils/caloriesUtils.js";
 import { hashPassword } from "../utils/passwordUtils.js";
 
 export const createUser = async (data) => {
-  const calories = calculateCaloriesNeeded(data);
+  const calories = calculateCaloriesNeeded(data.weight, data.body_fat, data.activity_level);
 
   const userData = {
     ...data,
