@@ -12,45 +12,62 @@
       <header-content></header-content>
     </header>
     <main>
-      <p>Vos informations</p>
-      <form id="updateProfileForm">
-        <label for="first_name"></label>
-        <input
-          type="text"
-          name="first_name"
-          placeholder="Prénom"
-          autocomplete="given-name"
-          disabled
-        />
-        <label for="email"></label>
-        <input type="email" name="email" placeholder="Email" autocomplete="email" disabled />
-        <label for="password"></label>
-        <input
-          type="password"
-          name="password"
-          placeholder="Mot de passe"
-          autocomplete="new-password"
-          disabled
-        />
-        <label for="weight"></label>
-        <input type="number" name="weight" placeholder="Poids (en kg)" disabled />
-        <label for="body_fat"></label>
-        <input type="number" name="body_fat" min="3" max="32" placeholder="% de graisse" disabled />
-        <label for="activity_level"></label>
-        <input
-          id="activityLevelInput"
-          type="range"
-          name="activity_level"
-          min="1"
-          max="5"
-          step="1"
-          value="1"
-          disabled
-        />
-        <p id="activityLevelDisplay">1 - Peu ou pas d'exercice / sport</p>
-        <button type="button" id="updateBtn" class="button">Modifier</button>
-        <input id="updateProfile" type="submit" value="Enregistrer" disabled class="button" />
-      </form>
+      <div id="modalBackground">
+        <div id="modal"></div>
+      </div>
+      <div id="formContainer">
+        <p>Vos informations</p>
+        <form id="updateProfileForm">
+          <label for="first_name"></label>
+          <input
+            type="text"
+            name="first_name"
+            placeholder="Prénom"
+            autocomplete="given-name"
+            disabled
+          />
+          <label for="email"></label>
+          <input type="email" name="email" placeholder="Email" autocomplete="email" disabled />
+          <label for="password"></label>
+          <input
+            type="password"
+            name="password"
+            placeholder="Mot de passe"
+            autocomplete="new-password"
+            disabled
+          />
+          <label for="weight"></label>
+          <input type="number" name="weight" placeholder="Poids (en kg)" disabled />
+          <label for="body_fat"></label>
+          <input
+            type="number"
+            name="body_fat"
+            min="3"
+            max="32"
+            placeholder="% de graisse"
+            disabled
+          />
+          <label for="activity_level"></label>
+          <input
+            id="activityLevelInput"
+            type="range"
+            name="activity_level"
+            min="1"
+            max="5"
+            step="1"
+            value="1"
+            disabled
+          />
+          <p id="activityLevelDisplay">1 - Peu ou pas d'exercice / sport</p>
+          <button type="button" id="updateBtn" class="button">Modifier</button>
+          <input id="updateProfile" type="submit" value="Enregistrer" disabled class="button" />
+        </form>
+      </div>
+      <div>
+        <h2>Vos besoin caloriques:</h2>
+        <div id="caloriesContainer"></div>
+        <button id="createPlanBtn" class="button">Créer un plan pour la semaine</button>
+      </div>
     </main>
     <footer>
       <footer-content></footer-content>

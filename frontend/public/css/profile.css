@@ -11,7 +11,7 @@ body {
 main {
   flex: 1;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
   font-weight: 600;
@@ -29,9 +29,9 @@ main h1 {
 form {
   display: flex;
   flex-direction: column;
-  width: 35%;
   gap: 15px;
   font-size: 24px;
+  width: 70%;
 }
 
 main a {
@@ -61,11 +61,70 @@ main a:hover {
   color: black;
 }
 
-#updateProfile:not(:disabled) {
+#updateProfile:not(:disabled),
+#updateBtn:not(:disabled) {
   background-color: #f35b04;
   color: white;
 }
 
+button:disabled,
 input:disabled {
   cursor: not-allowed;
+}
+
+#caloriesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#formContainer {
+  width: 50%;
+}
+
+#modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  /* ⚠️ On retire overflow ici */
+  overflow: hidden;
+}
+
+#modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh; /* ✅ Limite en hauteur */
+  overflow-y: auto; /* ✅ Scroll interne */
+  display: flex;
+  flex-direction: column;
+  text-align: left; /* Meilleur pour un contenu de type liste */
+}
+
+#modal ul {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Supprimer les flèches sur les input type number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Safari */
 }

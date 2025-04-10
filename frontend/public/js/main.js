@@ -8,6 +8,7 @@ class HeaderContent extends HTMLElement {
       <li><a href="/meals">Recettes</a></li>
       <li><a href="/shopping-list">Mes courses</a></li>
       <li><a href="/profile">Mon profil</a></li>
+      <li id="logout"><a href="#">Se déconnecter</a></li>
     </ul>`;
   }
 }
@@ -33,3 +34,19 @@ class FooterContent extends HTMLElement {
   }
 }
 customElements.define("footer-content", FooterContent);
+
+const logoutBtn = document.querySelector("#logout");
+const idStorage = localStorage.getItem("user_id");
+if (!idStorage) {
+  logoutBtn.style.display = "none";
+}
+logoutBtn.addEventListener("click", async () => {
+  const response = await fetch("http://localhost:4000/api/auth/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+  const data = await response.json();
+  console.log(data);
+  localStorage.removeItem("user_id");
+  window.location.href = "/home";
+});
