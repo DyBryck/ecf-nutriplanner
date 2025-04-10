@@ -6,7 +6,9 @@
   "type": "module",
   "scripts": {
     "dev": "node --watch src/server.js",
-    "postinstall": "pnpm exec prisma migrate dev --name init"
+    "postinstall": "pnpm exec prisma migrate dev --name init",
+    "populateDb": "node scripts/seedDb.js",
+    "resetDb": "npx prisma migrate reset --force"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +21,7 @@
     "cors": "^2.8.5",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
+    "javascript-lp-solver": "^0.4.24",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2"
   },

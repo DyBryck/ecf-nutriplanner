@@ -14,3 +14,9 @@ export const loginUser = async (req, res) => {
 
   return { message: "Utilisateur connecté avec succès", user };
 };
+
+export const logout = (req, res) => {
+  res.clearCookie("refreshToken");
+
+  return { message: "Déconnexion réussie" };
+};

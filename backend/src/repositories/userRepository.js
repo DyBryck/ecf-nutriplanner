@@ -5,14 +5,14 @@ const prisma = new PrismaClient();
 
 export const createUser = (data) =>
   prismaErrorHandler(() =>
-    prisma.users.create({
+    prisma.user.create({
       data,
     }),
   );
 
 export const findUserByEmail = (email) =>
   prismaErrorHandler(() =>
-    prisma.users.findUnique({
+    prisma.user.findUnique({
       where: {
         email,
       },
@@ -21,7 +21,7 @@ export const findUserByEmail = (email) =>
 
 export const findUserById = (id) =>
   prismaErrorHandler(() =>
-    prisma.users.findUniqueOrThrow({
+    prisma.user.findUniqueOrThrow({
       where: {
         id,
       },
@@ -30,7 +30,7 @@ export const findUserById = (id) =>
 
 export const updateUser = (id, data) =>
   prismaErrorHandler(() =>
-    prisma.users.update({
+    prisma.user.update({
       where: {
         id,
       },

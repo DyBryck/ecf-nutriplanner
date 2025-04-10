@@ -7,28 +7,33 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-model users {
-  id             Int      @id @default(autoincrement())
-  first_name     String
-  email          String   @unique
-  password       String
-  weight         Float
-  body_fat       Float
-  activity_level Int
-  created_at     DateTime @default(now())
+model user {
+  id                   Int                   @id @default(autoincrement())
+  first_name            String
+  email                String                @unique
+  password             String
+  weight               Float
+  body_fat             Float
+  activity_level       Int
+  calories_needed      Int
+  proteins_needed      Int
+  carbohydrates_needed Int
+  fats_needed          Int
+  created_at           DateTime              @default(now())
 
-  week_plans     week_plans[]
-  grocery_lists  grocery_lists[]
-  rejected_foods user_rejected_foods[]
+  week_plan           week_plan[]
+  grocery_list       grocery_list[]
+  rejected_food      user_rejected_food[]
   
-  @@map("users")
+  @@map("user")
 }
 
-enum foods_category {
+enum food_category {
   legume
   fruit
   produit_laitier
-  viande
+  viande_rouge
+  viande_blanche
   poisson
   fruit_de_mer
   matiere_grasse
@@ -39,112 +44,132 @@ enum foods_category {
   autre
 }
 
-model foods {
+model food {
   id                 Int               @id @default(autoincrement())
   name               String            @unique
-  category           foods_category
+  category           food_category
   calories           Float
   proteins           Float
   carbohydrates      Float
   lipids             Float
+  minimum_quantity   Float
 
-  meal_foods         meal_foods[]
-  grocery_list_foods grocery_list_foods[]
-  rejected_by_users  user_rejected_foods[]
+  grocery_list_food  grocery_list_food[]
+  rejected_by_user  user_rejected_food[]
+  recipe_food       recipe_food[]
+  meal_food         meal_food[]
   
-  @@map("foods")
+  @@map("food")
 }
 
-model user_rejected_foods {
-  user    users @relation(fields: [user_id], references: [id])
+model user_rejected_food {
+  user    user @relation(fields: [user_id], references: [id])
   user_id Int
-  food    foods @relation(fields: [food_id], references: [id])
+  food    food @relation(fields: [food_id], references: [id])
   food_id Int
 
   @@id([user_id, food_id])
   
-  @@map("user_rejected_foods")
+  @@map("user_rejected_food")
 }
 
-model meals {
-  id                  Int      @id @default(autoincrement())
-  name                String   @unique
-  total_calories      Float
-  total_proteins      Float
-  total_carbohydrates Float
-  total_lipids        Float
-
-  meal_foods          meal_foods[]
-  week_plan_meals     week_plan_meals[]
+model recipe {
+  id              Int            @id @default(autoincrement())
+  name            String         @unique
   
-  @@map("meals")
+  recipe_food    recipe_food[]
+  meal           meal[]
+  
+  @@map("recipe")
 }
 
-model meal_foods {
-  meal     meals @relation(fields: [meal_id], references: [id])
+model recipe_food {
+  recipe_id Int
+  food_id   Int
+  food      food   @relation(fields: [food_id], references: [id])
+  recipe    recipe @relation(fields: [recipe_id], references: [id])
+
+  @@id([recipe_id, food_id])
+  
+  @@map("recipe_food")
+}
+
+model meal {
+  id             Int       @id @default(autoincrement())
+  recipe_id      Int
+
+  recipe         recipe  @relation(fields: [recipe_id], references: [id])
+  meal_food     meal_food[]
+  week_plan_meal week_plan_meal[]
+  
+  @@map("meal")
+}
+
+model meal_food {
+  meal     meal  @relation(fields: [meal_id], references: [id])
   meal_id  Int
-  food     foods @relation(fields: [food_id], references: [id])
+  food     food  @relation(fields: [food_id], references: [id])
   food_id  Int
-  quantity Float
+  quantity Float   // Portion en grammes spécifique pour ce repas
 
   @@id([meal_id, food_id])
   
-  @@map("meal_foods")
+  @@map("meal_food")
 }
 
-enum week_plan_meals_moment {
+enum week_plan_meal_moment {
   petit_dejeuner
   dejeuner
   collation
   diner
 }
 
-model week_plan_meals {
-  id            Int                      @id @default(autoincrement())
-  week_plan_id  Int
-  meal_id       Int
-  day           Int  // de 1 à 7
-  moment        week_plan_meals_moment
-  week_plan     week_plans @relation(fields: [week_plan_id], references: [id])
-  meal          meals      @relation(fields: [meal_id], references: [id])
+model week_plan_meal {
+  id           Int             @id @default(autoincrement())
+  week_plan_id Int
+  meal_id      Int
+  day          Int             // de 1 à 7
+  moment       week_plan_meal_moment
+  week_plan    week_plan       @relation(fields: [week_plan_id], references: [id])
+  meal         meal            @relation(fields: [meal_id], references: [id])
 
   @@unique([week_plan_id, day, moment])
   
-  @@map("week_plan_meals")
+  @@map("week_plan_meal")
 }
 
-model week_plans {
-  id              Int              @id @default(autoincrement())
+model week_plan {
+  id              Int                @id @default(autoincrement())
   user_id         Int
-  name            String           @default("Plan de la semaine")
-  created_at      DateTime         @default(now())
-  user            users            @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  week_plan_meals week_plan_meals[]
-  grocery_lists   grocery_lists[]
+  name            String             @default("Plan de la semaine")
+  created_at      DateTime           @default(now())
+  user            user               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  week_plan_meal  week_plan_meal[]
+  grocery_list   grocery_list[]
   
-  @@map("week_plans")
+  @@map("week_plan")
 }
 
-model grocery_lists {
-  id                  Int                   @id @default(autoincrement())
-  user_id             Int
-  week_plan_id        Int
-  created_at          DateTime              @default(now())
-  user                users                 @relation(fields: [user_id], references: [id], onDelete: Cascade)
-  week_plan           week_plans            @relation(fields: [week_plan_id], references: [id])
-  grocery_list_foods  grocery_list_foods[]
-  
-  @@map("grocery_lists")
+model grocery_list {
+  id                 Int                  @id @default(autoincrement())
+  user_id            Int
+  week_plan_id       Int
+  created_at         DateTime             @default(now())
+  user               user                 @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  week_plan          week_plan            @relation(fields: [week_plan_id], references: [id])
+  grocery_list_food grocery_list_food[]
+
+  @@map("grocery_list")
 }
 
-model grocery_list_foods {
-  grocery_list   grocery_lists @relation(fields: [grocery_list_id], references: [id])
+model grocery_list_food {
+  grocery_list   grocery_list @relation(fields: [grocery_list_id], references: [id])
   grocery_list_id Int
-  food           foods         @relation(fields: [food_id], references: [id])
+  food           food         @relation(fields: [food_id], references: [id])
   food_id        Int
   quantity       Float
 
   @@id([grocery_list_id, food_id])
   
-  @@map("grocery_list_foods")
+  @@map("grocery_list_food")
 }
