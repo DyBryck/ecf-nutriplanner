@@ -13,10 +13,12 @@ const publicDir = path.join(__dirname, "public");
 
 // Mapping des routes personnalisées
 const routes = {
-  "/accueil": "index.html",
+  "/": "index.html",
+  "/home": "index.html",
   "/about": "about.html",
   "/register": "register.html",
   "/login": "login.html",
+  "/profile": "profile.html",
 };
 
 /**
@@ -54,7 +56,8 @@ function resolveFilePath(urlPath) {
     const fileName = routes[cleanedPath];
     // Si la racine est demandée ("/"), le fichier se trouve directement dans publicDir
     // Sinon, le fichier est dans le sous-dossier "pages"
-    const baseDir = cleanedPath === "/accueil" ? publicDir : path.join(publicDir, "pages");
+    const baseDir =
+      cleanedPath === "/home" || cleanedPath === "/" ? publicDir : path.join(publicDir, "pages");
     return path.join(baseDir, fileName);
   }
   // Pour les autres chemins, on considère qu'il s'agit d'un chemin relatif à publicDir

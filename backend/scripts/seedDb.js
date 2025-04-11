@@ -2,113 +2,87 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  const user = await prisma.user.create({
-    data: {
-      firstName: "John",
-      email: "john@example.com",
-      password: "password123",
-      weight: 75.0,
-      bodyFat: 15.0,
-      activityLevel: 3,
-    },
-  });
-  console.log("Utilisateur créé:", user);
-
-  const foodsData = [
+const seedDb = async () => {
+  const aliments = [
     {
-      name: "Pomme",
-      category: "fruit",
-      calories: 52,
-      proteins: 0.3,
-      carbohydrates: 14,
-      lipids: 0.2,
+      name: "Riz Basmati",
+      category: "cereale",
+      calories: 130,
+      proteins: 0.086,
+      carbohydrates: 0.77,
+      lipids: 0.009,
+      minimum_quantity: 60,
     },
     {
       name: "Poulet",
-      category: "viande",
+      category: "viande_blanche",
       calories: 165,
-      proteins: 31,
+      proteins: 0.22,
       carbohydrates: 0,
-      lipids: 3.6,
+      lipids: 0.021,
+      minimum_quantity: 150,
     },
     {
-      name: "Riz",
-      category: "legume",
-      calories: 34,
-      proteins: 2.8,
-      carbohydrates: 6.6,
-      lipids: 0.4,
+      name: "Bœuf",
+      category: "viande_rouge",
+      calories: 250,
+      proteins: 0.216,
+      carbohydrates: 0.002,
+      lipids: 0.05,
+      minimum_quantity: 150,
     },
   ];
 
-  const createdFoods = [];
-  for (const foodData of foodsData) {
-    const food = await prisma.food.create({ data: foodData });
-    createdFoods.push(food);
-  }
-  console.log("Aliments créés:", createdFoods);
-
-  const meal = await prisma.meal.create({
-    data: {
-      name: "Poulet brocolis",
-      totalCalories: 300,
-      totalProteins: 20,
-      totalCarbohydrates: 40,
-      totalLipids: 10,
+  const recipes = [
+    {
+      name: "Riz poulet",
     },
-  });
-  console.log("Repas créé:", meal);
-
-  const mealFoodsData = [
-    { mealId: meal.id, foodId: createdFoods[1].id, quantity: 1 },
-    { mealId: meal.id, foodId: createdFoods[2].id, quantity: 2 },
+    {
+      name: "Riz bœuf",
+    },
   ];
-  for (const mealFood of mealFoodsData) {
-    await prisma.mealFood.create({ data: mealFood });
-  }
 
-  const weekPlan = await prisma.weekPlan.create({
-    data: {
-      userId: user.id,
-      name: "Plan de la semaine",
+  const recipes_foods = [
+    {
+      recipe_id: 1,
+      food_id: 1,
     },
-  });
-  console.log("Plan de la semaine créé:", weekPlan);
-
-  const weekPlanMeal = await prisma.weekPlanMeal.create({
-    data: {
-      weekPlanId: weekPlan.id,
-      mealId: meal.id,
-      day: 1,
-      moment: "petit_dejeuner",
+    {
+      recipe_id: 1,
+      food_id: 2,
     },
-  });
-  console.log("Association du repas dans le plan (weekPlanMeal) créée:", weekPlanMeal);
-
-  const groceryList = await prisma.groceryList.create({
-    data: {
-      userId: user.id,
-      weekPlanId: weekPlan.id,
+    {
+      recipe_id: 2,
+      food_id: 1,
     },
-  });
-  console.log("Liste de courses créée:", groceryList);
-
-  const groceryListFoodsData = [
-    { groceryListId: groceryList.id, foodId: createdFoods[2].id, quantity: 3 },
+    {
+      recipe_id: 2,
+      food_id: 3,
+    },
   ];
-  for (const glFood of groceryListFoodsData) {
-    await prisma.groceryListFood.create({ data: glFood });
-  }
 
-  console.log("Database seeded successfully.");
-}
+  try {
+    await prisma.food.createMany({
+      data: aliments,
+    });
+    console.log("Les aliments ont été insérés avec succès dans la base de données.");
 
-main()
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  })
-  .finally(async () => {
+    await prisma.recipe.createMany({
+      data: recipes,
+    });
+    console.log("Les recettes ont été insérées avec succès dans la base de données.");
+
+    await prisma.recipe_food.createMany({
+      data: recipes_foods,
+    });
+    console.log(
+      "Les ingrédients des recettes ont été insérées avec succès dans la base de données.",
+    );
+  } catch (error) {
+    console.error("Une erreur est survenue lors de l'insertion :", error);
+  } finally {
     await prisma.$disconnect();
-  });
+  }
+};
+
+seedDb();

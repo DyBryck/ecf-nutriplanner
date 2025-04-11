@@ -1,0 +1,131 @@
+html,
+body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+main p,
+main h1 {
+  font-size: 32px;
+}
+
+main h1 {
+  color: #f35b04;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-size: 24px;
+  width: 70%;
+}
+
+main a {
+  font-size: 25px;
+  color: #f35b04;
+  opacity: 0.56;
+  transition: all 0.3s ease-in-out;
+}
+
+main a:hover {
+  opacity: 1;
+}
+
+#activityLevelDisplay {
+  font-size: 24px;
+}
+
+.button {
+  align-self: center;
+  margin-bottom: 20px;
+}
+
+#updateBtn,
+#updateProfile {
+  background-color: white;
+  border: solid 3px #f35b04;
+  color: black;
+  text-align: center;
+}
+
+#updateProfile:not(:disabled),
+#updateBtn:not(:disabled) {
+  background-color: #f35b04;
+  color: white;
+}
+
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+}
+
+#caloriesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+#formContainer {
+  width: 50%;
+}
+
+#modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  /* ⚠️ On retire overflow ici */
+  overflow: hidden;
+}
+
+#modal {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh; /* ✅ Limite en hauteur */
+  overflow-y: auto; /* ✅ Scroll interne */
+  display: flex;
+  flex-direction: column;
+  text-align: left; /* Meilleur pour un contenu de type liste */
+}
+
+#modal ul {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Supprimer les flèches sur les input type number */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Safari */
+}

@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "prepare": "husky install",
     "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
     "lint": "eslint .",
     "test": "vitest",
@@ -15,7 +16,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.7.1",
+  "packageManager": "pnpm@10.8.0",
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
@@ -24,6 +25,7 @@
     "concurrently": "^9.1.2",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.24.0",
+    "eslint-plugin-vitest": "^0.5.4",
     "globals": "^16.0.0",
     "husky": "^9.1.7"
   },

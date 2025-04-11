@@ -1,7 +1,15 @@
 class HeaderContent extends HTMLElement {
   constructor() {
     super();
-    this.innerHTML = `<a href="/accueil">Accueil</a>`;
+    this.innerHTML = `
+    <a href="/home" class="logo">NutriPlanner</a>
+    <ul>
+      <li><a href="/home">Accueil</a></li>
+      <li><a href="/meals">Recettes</a></li>
+      <li><a href="/shopping-list">Mes courses</a></li>
+      <li><a href="/profile">Mon profil</a></li>
+      <li id="logout"><a href="#">Se déconnecter</a></li>
+    </ul>`;
   }
 }
 customElements.define("header-content", HeaderContent);
@@ -9,12 +17,36 @@ customElements.define("header-content", HeaderContent);
 class FooterContent extends HTMLElement {
   constructor() {
     super();
-    this.innerHTML = `<p>&copy 2025 ECF 2, NutriPlanner. Tous droits réservés.</p>
-                      <a href="/about">À propos</a>`;
+    this.innerHTML = `
+    <ul>
+      <li><a href="/home">Accueil</a></li>
+      <li><a href="/meals">Recettes</a></li>
+      <li><a href="/shopping-list">Mes courses</a></li>
+      <li><a href="/profile">Mon profil</a></li>
+    </ul>
+    <div>
+      <p>Contact</p>
+      <p>Tel: 01.23.45.67.89</p>
+      <p>Email: contact@nutriplanner.com</p>
+      <p>&copy 2025 ECF 2, NutriPlanner. Tous droits réservés.</p>
+      <a href="/about">À propos</a>
+    </div>`;
   }
 }
 customElements.define("footer-content", FooterContent);
 
-if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-  document.body.classList.add("dark-mode");
+const logoutBtn = document.querySelector("#logout");
+const idStorage = localStorage.getItem("user_id");
+if (!idStorage) {
+  logoutBtn.style.display = "none";
 }
+logoutBtn.addEventListener("click", async () => {
+  const response = await fetch("http://localhost:4000/api/auth/logout", {
+    method: "POST",
+    credentials: "include",
+  });
+  const data = await response.json();
+  console.log(data);
+  localStorage.removeItem("user_id");
+  window.location.href = "/home";
+});
