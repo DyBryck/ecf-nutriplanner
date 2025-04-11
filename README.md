@@ -1,3 +1,7 @@
+## Notion
+
+https://www.notion.so/ECF-2-NutriPlanner-1caff68e6baf8000a73cc13a2275e20a?pvs=4
+
 ## Table des matières
 
 - [Structure](#structure)
