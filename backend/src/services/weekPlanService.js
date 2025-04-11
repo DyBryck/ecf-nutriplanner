@@ -73,3 +73,11 @@ export const generateWeeklyPlan = async (id) => {
 
   return plan;
 };
+
+export const getWeekPlanById = async (id) => {
+  const weekPlan = await weekPlanRepository.getWeekPlanById(id);
+
+  const meals = await weekPlanRepository.getMealFoodsByWeekPlanId(id);
+
+  return { weekPlan, meals };
+};

@@ -18,3 +18,11 @@ export const generateWeeklyPlan = async (req) => {
 
   return { message: "Plan de la semaine généré", weekPlan };
 };
+
+export const getWeekPlanById = async (req) => {
+  const id = parseInt(req.params.id);
+
+  const weekPlan = await weekPlanService.getWeekPlanById(id);
+
+  return { message: "Plan de la semaine récupéré", weekPlan };
+};

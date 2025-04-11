@@ -16,3 +16,13 @@ export const createMealFood = (mealId, foodId, quantity) =>
       },
     }),
   );
+
+export const createGroceryList = (userId, weekPlanId) =>
+  prismaErrorHandler(() =>
+    prisma.grocery_list.create({
+      data: {
+        user_id: userId,
+        week_plan_id: weekPlanId,
+      },
+    }),
+  );

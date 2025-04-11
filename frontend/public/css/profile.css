@@ -59,6 +59,7 @@ main a:hover {
   background-color: white;
   border: solid 3px #f35b04;
   color: black;
+  text-align: center;
 }
 
 #updateProfile:not(:disabled),

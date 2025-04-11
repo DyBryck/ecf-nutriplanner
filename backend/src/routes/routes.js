@@ -21,9 +21,11 @@ router.get("/foods", handleRequest(foodController.getAllFoods));
 router.get("/recipes", handleRequest(recipeController.getAllRecipes));
 
 router.post("/weekplan", handleRequest(weekPlanController.createWeekPlan));
+router.get("/weekplan/:id", handleRequest(weekPlanController.getWeekPlanById));
 router.get("/get-weekly-plan", handleRequest(weekPlanController.generateWeeklyPlan));
 
 router.post("/meals", handleRequest(mealController.createMeal));
 router.post("/meals/food", handleRequest(mealController.createMealFood));
+router.get("/generate-grocery-list", handleRequest(mealController.createGroceryList));
 
 export default router;

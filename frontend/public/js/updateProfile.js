@@ -95,7 +95,7 @@ const showCalories = (data) => {
   const carbs = document.createElement("p");
   carbs.textContent = `Glucides: ${data.user.carbohydrates_needed}g`;
   const fats = document.createElement("p");
-  fats.textContent = `Lipides: ${data.user.fats_needed}g`;
+  fats.textContent = `Lipides: ${Math.round(data.user.fats_needed)}g`;
   container.append(calories, proteins, carbs, fats);
 };
 
@@ -121,9 +121,8 @@ createPlanBtn.addEventListener("click", async () => {
   const weekPlan = data.weekPlan;
 
   const planContainer = document.getElementById("modal");
-  planContainer.innerHTML = ""; // Nettoyage
+  planContainer.innerHTML = "";
 
-  // Regroupement des repas par jour
   const mealsByDay = {};
 
   weekPlan.forEach((meal) => {
@@ -141,17 +140,16 @@ createPlanBtn.addEventListener("click", async () => {
     const innerUl = document.createElement("ul");
 
     const meals = mealsByDay[day] || [];
-    meals.sort((a, b) => a.meal - b.meal); // Assure l'ordre des moments
+    meals.sort((a, b) => a.meal - b.meal);
 
     meals.forEach((meal) => {
       const mealLi = document.createElement("li");
       mealLi.textContent = `${mealMoments[meal.meal - 1]} : ${meal.recipe}`;
 
-      // Liste des aliments
       const foodUl = document.createElement("ul");
       meal.food.forEach((item) => {
         const foodLi = document.createElement("li");
-        foodLi.textContent = `${item.name} — ${item.grams}g`;
+        foodLi.textContent = `${item.name} — ${Math.round(item.grams)}g`;
         foodUl.appendChild(foodLi);
       });
 
@@ -163,5 +161,9 @@ createPlanBtn.addEventListener("click", async () => {
     planContainer.appendChild(dayLi);
   }
 
-  modal.style.display = "flex"; // Affichage du modal
+  modal.style.display = "flex";
+  const generateGroceryListBtn = document.createElement("button");
+  generateGroceryListBtn.textContent = "Générer la liste de courses";
+  generateGroceryListBtn.classList.add("button");
+  planContainer.appendChild(generateGroceryListBtn);
 });

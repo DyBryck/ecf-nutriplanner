@@ -14,3 +14,14 @@ export const createMealFood = async (req) => {
 
   return { message: "Nourriture ajoutée au repas", mealFood };
 };
+
+export const createGroceryList = async (req) => {
+  const { user_id, week_plan_id } = req.query;
+
+  const groceryList = await mealService.createGroceryList(
+    parseInt(user_id),
+    parseInt(week_plan_id),
+  );
+
+  return { message: "Liste de courses générée", groceryList };
+};
