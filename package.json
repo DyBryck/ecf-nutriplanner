@@ -1,0 +1,25 @@
+{
+  "name": "ecf-nutriplanner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter backend dev\" \"pnpm --filter frontend dev\"",
+    "lint": "eslint .",
+    "test": "vitest",
+    "test-run": "vitest run",
+    "seed": "node backend/scripts/seedDb.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.8.0",
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "globals": "^16.0.0"
+  },
+  "dependencies": {
+    "vitest": "^3.1.1"
+  }
+}

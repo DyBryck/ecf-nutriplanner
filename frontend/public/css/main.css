@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400..700;1,400..700&display=swap");
+
+/* 1. Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+* {
+  margin: 0;
+  all: unset;
+}
+
+body {
+  /* 3. Add accessible line-height */
+  line-height: 1.5;
+  /* 4. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 5. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 6. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/*
+  9. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+
+html {
+  height: 100%;
+  scroll-behavior: smooth;
+  flex-direction: column;
+}
+
+head {
+  display: none;
+}
+
+body {
+  font-family: "Afacad", sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 25px 38px;
+  background-color: #f3f2f2;
+}
+
+header-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 32px;
+}
+
+header-content ul {
+  display: flex;
+  gap: 13px;
+  list-style-type: none;
+}
+
+header-content ul a:hover {
+  text-decoration: underline;
+  text-underline-offset: 8px;
+  text-decoration-thickness: 3px;
+  text-decoration-color: #f35b04;
+}
+
+.logo {
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.button {
+  cursor: pointer;
+  background-color: #f35b04;
+  width: 250px;
+  height: 50px;
+  color: white;
+  font-size: 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+footer {
+  background-color: #f9dcc4;
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}

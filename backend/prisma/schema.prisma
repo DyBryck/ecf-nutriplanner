@@ -1,0 +1,127 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+enum WeekPlanMealMoment {
+  breakfast
+  lunch
+  snack
+  dinner
+}
+
+model User {
+  id                     Int            @id @default(autoincrement())
+  first_name              String
+  email                  String         @unique
+  password               String
+  weight                 Float
+  body_fat_percentage    Float
+  activity_level         Int            // 1: sédentaire, 2: léger, 3: modéré, 4: actif, 5: très actif
+  daily_calories         Int            // Besoins caloriques journaliers
+  daily_proteins         Float          // En grammes
+  daily_carbs            Float          // En grammes
+  daily_fats             Float          // En grammes
+  created_at             DateTime       @default(now())
+
+  week_plans     WeekPlan[]
+  grocery_lists  GroceryList[]
+}
+
+model Food {
+  id               Int             @id @default(autoincrement())
+  name             String          @unique
+  calories         Float           // Pour 1g
+  proteins         Float           // Pour 1g
+  carbs            Float           // Pour 1g
+  fats             Float           // Pour 1g
+  minimum_quantity Float           // Pour rester cohérent dans le calcul des portions
+
+  recipe_foods         RecipeFood[]
+  meal_foods           MealFood[]
+  grocery_list_foods   GroceryListFood[]
+}
+
+model Recipe {
+  id            Int            @id @default(autoincrement())
+  name          String         @unique
+
+  recipe_foods  RecipeFood[]
+  meals         Meal[]
+}
+
+model RecipeFood {
+  id         Int      @id @default(autoincrement())
+  recipe     Recipe   @relation(fields: [recipe_id], references: [id])
+  recipe_id  Int
+  food       Food     @relation(fields: [food_id], references: [id])
+  food_id    Int
+}
+
+model Meal {
+  id        Int      @id @default(autoincrement())
+  recipe    Recipe   @relation(fields: [recipe_id], references: [id])
+  recipe_id Int
+  name      String
+
+  meal_foods      MealFood[]
+  week_plan_meals WeekPlanMeal[]
+}
+
+model MealFood {
+  meal     Meal  @relation(fields: [meal_id], references: [id])
+  meal_id  Int
+  food     Food  @relation(fields: [food_id], references: [id])
+  food_id  Int
+  quantity Float
+
+  @@id([meal_id, food_id])
+}
+
+model WeekPlanMeal {
+  id          Int                 @id @default(autoincrement())
+  week_plan   WeekPlan            @relation(fields: [week_plan_id], references: [id])
+  week_plan_id Int
+  meal        Meal                @relation(fields: [meal_id], references: [id])
+  meal_id     Int
+  day         Int                 // 1 à 7
+  moment      WeekPlanMealMoment
+
+  @@unique([week_plan_id, day, moment])
+}
+
+model WeekPlan {
+  id             Int            @id @default(autoincrement())
+  user           User           @relation(fields: [user_id], references: [id])
+  user_id        Int
+  name           String         @default("Plan de la semaine")
+  created_at     DateTime       @default(now())
+
+  week_plan_meals WeekPlanMeal[]
+  grocery_lists   GroceryList[]
+}
+
+model GroceryList {
+  id             Int             @id @default(autoincrement())
+  user           User            @relation(fields: [user_id], references: [id])
+  user_id        Int
+  week_plan      WeekPlan        @relation(fields: [week_plan_id], references: [id])
+  week_plan_id   Int
+  created_at     DateTime        @default(now())
+
+  grocery_list_foods GroceryListFood[]
+}
+
+model GroceryListFood {
+  grocery_list   GroceryList  @relation(fields: [grocery_list_id], references: [id])
+  grocery_list_id Int
+  food           Food         @relation(fields: [food_id], references: [id])
+  food_id        Int
+  quantity       Float
+
+  @@id([grocery_list_id, food_id])
+}

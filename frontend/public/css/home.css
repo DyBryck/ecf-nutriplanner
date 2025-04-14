@@ -1,0 +1,35 @@
+.hero {
+  margin-top: 140px;
+  display: flex;
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  letter-spacing: -3%;
+  width: 50%;
+  padding: 100px;
+}
+
+h1 {
+  font-size: 80px;
+  line-height: 100px;
+}
+
+h1 strong {
+  color: #f35b04;
+}
+
+.hero-text p {
+  color: #8b8787;
+  font-size: 20px;
+  margin-top: 40px;
+}
+
+.hero img {
+  height: 500px;
+}
+
+.hero .button {
+  margin-top: 76px;
+}
