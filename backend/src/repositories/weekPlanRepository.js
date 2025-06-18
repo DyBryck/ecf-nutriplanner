@@ -3,21 +3,21 @@ import prismaErrorHandler from "../errors/handlePrismaErrors.js";
 
 const prisma = new PrismaClient();
 
-export const createWeekPlan = (data) => prismaErrorHandler(() => prisma.week_plan.create({ data }));
+export const createWeekPlan = (data) => prismaErrorHandler(() => prisma.weekPlan.create({ data }));
 
 export const createWeekPlanMeal = (data) =>
-  prismaErrorHandler(() => prisma.week_plan_meal.create({ data }));
+  prismaErrorHandler(() => prisma.weekPlanMeal.create({ data }));
 
 export const getWeekPlanById = (id) =>
-  prismaErrorHandler(() => prisma.week_plan.findUnique({ where: { id } }));
+  prismaErrorHandler(() => prisma.weekPlan.findUnique({ where: { id } }));
 
 export const getMealFoodsByWeekPlanId = async (weekPlanId) => {
   // Requête sur le week_plan avec ses week_plan_meal, incluant les meals et les meal_food
   const weekPlan = await prismaErrorHandler(() =>
-    prisma.week_plan.findUnique({
+    prisma.weekPlan.findUnique({
       where: { id: weekPlanId },
       include: {
-        week_plan_meal: {
+        week_plan_meals: {
           orderBy: { day: "asc" },
           // Les enregistrements week_plan_meal contiennent déjà day et moment
           include: {
@@ -49,7 +49,7 @@ export const getMealFoodsByWeekPlanId = async (weekPlanId) => {
   }
 
   // Extraction d'un tableau plat des meal_food en y ajoutant day et moment
-  const mealFoods = weekPlan.week_plan_meal.flatMap((wpm) =>
+  const mealFoods = weekPlan.week_plan_meals.flatMap((wpm) =>
     wpm.meal.meal_food.map((mf) => ({
       meal_id: mf.meal_id,
       food_id: mf.food_id,

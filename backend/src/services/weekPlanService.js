@@ -19,18 +19,19 @@ export const generateWeeklyPlan = async (id) => {
   const caloriesNeeded = calculateCaloriesNeeded(user.weight, user.body_fat, user.activity_level);
 
   const macroPerMeal = {
-    protein: Math.round(caloriesNeeded.proteins.grams / 4),
-    carb: Math.round(caloriesNeeded.carbohydrates.grams / 4),
-    lipid: Math.round(caloriesNeeded.fats.grams / 4),
+    proteins: Math.round(caloriesNeeded.proteins.grams / 4),
+    carbs: Math.round(caloriesNeeded.carbohydrates.grams / 4),
+    fats: Math.round(caloriesNeeded.fats.grams / 4),
   };
 
   const plan = [];
   for (let i = 0; i < 7; i++) {
     for (let j = 0; j < 4; j++) {
       const recipe = recipes[Math.floor(Math.random() * recipes.length)];
-      const basicMeal = await mealService.createMeal(recipe.id);
 
-      const recipeToOptimize = recipe.recipe_food.map((item) => ({
+      const basicMeal = await mealService.createMeal({ id: recipe.id, name: recipe.name });
+
+      const recipeToOptimize = recipe.recipe_foods.map((item) => ({
         name: item.food.name,
         p: item.food.proteins,
         c: item.food.carbohydrates,
@@ -54,10 +55,10 @@ export const generateWeeklyPlan = async (id) => {
       };
 
       const moments = {
-        1: "petit_dejeuner",
-        2: "dejeuner",
-        3: "collation",
-        4: "diner",
+        1: "breakfast",
+        2: "lunch",
+        3: "snack",
+        4: "dinner",
       };
 
       plan.push(meal);

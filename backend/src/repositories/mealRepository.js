@@ -3,12 +3,12 @@ import prismaErrorHandler from "../errors/handlePrismaErrors.js";
 
 const prisma = new PrismaClient();
 
-export const createMeal = (id) =>
-  prismaErrorHandler(() => prisma.meal.create({ data: { recipe_id: id } }));
+export const createMeal = (data) =>
+  prismaErrorHandler(() => prisma.meal.create({ data: { recipe_id: data.id, name: data.name } }));
 
 export const createMealFood = (mealId, foodId, quantity) =>
   prismaErrorHandler(() =>
-    prisma.meal_food.create({
+    prisma.mealFood.create({
       data: {
         food_id: foodId,
         meal_id: mealId,
@@ -19,7 +19,7 @@ export const createMealFood = (mealId, foodId, quantity) =>
 
 export const createGroceryList = (userId, weekPlanId) =>
   prismaErrorHandler(() =>
-    prisma.grocery_list.create({
+    prisma.groceryList.create({
       data: {
         user_id: userId,
         week_plan_id: weekPlanId,

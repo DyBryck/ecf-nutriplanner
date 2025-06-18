@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
+import { UnauthorizedError } from "../errors/customErrors.js";
 
 const JWT_SECRET = process.env.JWT_SECRET || "votre_secret_jwt";
-const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || "1h";
+const ACCESS_TOKEN_EXPIRES_IN = process.env.ACCESS_TOKEN_EXPIRES_IN || "15m";
 const REFRESH_TOKEN_EXPIRES_IN = process.env.REFRESH_TOKEN_EXPIRES_IN || "30d";
 
 /**
@@ -34,5 +35,10 @@ export const signRefreshToken = (payload) => {
  * @throws {Error} En cas de token invalide ou expiré.
  */
 export const verifyToken = (token) => {
-  return jwt.verify(token, JWT_SECRET);
+  try {
+    return jwt.verify(token, JWT_SECRET);
+  } catch (error) {
+    if (error.message.includes("jwt expired")) throw new UnauthorizedError("Token expiré");
+    if (error.message.includes("invalid token")) throw new UnauthorizedError("Token invalide");
+  }
 };

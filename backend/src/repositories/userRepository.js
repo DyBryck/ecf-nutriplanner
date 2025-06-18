@@ -37,3 +37,12 @@ export const updateUser = (id, data) =>
       data,
     }),
   );
+
+export const deleteUserById = (id) =>
+  prismaErrorHandler(() =>
+    prisma.user.delete({
+      where: {
+        id,
+      },
+    }),
+  );
